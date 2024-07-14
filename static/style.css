@@ -1,0 +1,207 @@
+.cp-search-results .results-list {
+    border: 1px solid #ccc;
+    border-top: 0;
+    background-color: #f2f2f2;
+    padding: 15px 0
+}
+
+.cp-search-results .results-list .cp-rss-button {
+    float: right
+}
+.cp-search-results .results-list-items>.results {
+    display: flex;
+    flex-direction: column
+}
+.cp-search-results .results-list-items>.results {
+    display: flex;
+    flex-direction: column
+}
+
+.cp-search-results .results {
+    margin: 0;
+    padding: 0
+}
+.cp-search-result-item {
+    display: block;
+    padding: 12px 0
+}
+
+.cp-search-result-item:first-child {
+    padding-top: 0
+}
+
+@media (min-width: 992px) {
+    .cp-search-result-item {
+        display:flex;
+        flex: 0 0 auto
+    }
+}
+@media (max-width: 991px) {
+    .cp-search-result-item {
+        padding:7px 0
+    }
+}
+
+.cp-search-result-item>.item-column {
+    display: flex;
+    padding-right: 45px;
+    align-items: center;
+}
+
+.cp-search-result-item>.item-column>.cp-search-result-item-content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    /* background-color: #fff */
+}
+.cp-search-result-item>.item-column>.cp-search-result-item-content .cp-search-result-item-info {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    background: #fff;
+    padding: 10px
+}
+
+.cp-search-result-item>.item-column>.cp-search-result-item-content .cp-search-result-item-info .cp-rating-stars {
+    margin-top: 14px
+}
+@media (max-width: 991px) {
+    .cp-search-result-item>.item-column>.cp-search-result-item-content .cp-search-result-item-info .cp-jacket-cover {
+        max-width:70px
+    }
+}
+
+.cp-search-result-item>.item-column>.cp-search-result-item-content .cp-search-result-item-info .jacket-cover-wrap {
+    margin-right: 15px
+}
+
+@media (max-width: 320px) {
+    .cp-search-result-item>.item-column>.cp-search-result-item-content .cp-search-result-item-info .jacket-cover-wrap {
+        display:inline-table
+    }
+}
+.cp-search-result-item>.item-column>.cp-search-result-item-content .cp-search-result-item-info .cp-title {
+    margin: 0;
+    line-height: 1.35;
+    font-size: 1.43em
+}
+
+.cp-search-result-item>.item-column>.cp-search-result-item-content .cp-search-result-item-info .cp-title .cp-subtitle {
+    margin: 0;
+    line-height: 1.37;
+    font-size: .8em
+}
+@media (max-width: 991px) {
+    .cp-search-result-item>.item-column>.cp-search-result-item-content .cp-search-result-item-info .cp-title {
+        line-height:1.33;
+        font-size: 1.29em
+    }
+
+    .cp-search-result-item>.item-column>.cp-search-result-item-content .cp-search-result-item-info .cp-title .cp-subtitle {
+        line-height: 1.357;
+        font-size: .778em
+    }
+}
+.cp-search-result-item>.item-column>.cp-search-result-item-content .cp-search-result-item-info .add-to-shelf-wrap {
+    flex: 0 0 33.3333333333%;
+    margin-left: auto;
+    width: 33.3333333333%;
+    padding: 0 0 0 20px
+}
+
+.cp-search-result-item>.item-column>.cp-search-result-item-content .cp-search-result-item-info .add-to-shelf-wrap .icon-svg-shelf-item {
+    width: 2.37em;
+    height: 1.58em
+}
+@media (max-width: 767px) {
+    .cp-search-result-item>.item-column>.cp-search-result-item-content .cp-search-result-item-info .add-to-shelf-wrap {
+        flex:initial;
+        width: 3.715em;
+        padding: 0 0 0 15px
+    }
+
+    .cp-search-result-item>.item-column>.cp-search-result-item-content .cp-search-result-item-info .add-to-shelf-wrap .shelf-name-text {
+        display: none
+    }
+.cp-search-result-item>.item-column>.cp-search-result-item-content .cp-search-result-item-info .add-to-shelf-wrap .mobile-add-to-shelf-btn {
+        position: relative;
+        width: 2.86em;
+        padding-right: 0;
+        padding-left: 0
+    }
+
+    .cp-search-result-item>.item-column>.cp-search-result-item-content .cp-search-result-item-info .add-to-shelf-wrap .cp-dropdown-trigger {
+        display: none
+    }
+}
+.cp-search-result-item>.item-column>.cp-search-result-item-content .cp-search-result-item-info .cp-bib-series {
+    display: block
+}
+
+.cp-search-result-item .info {
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 15px
+}
+
+.cp-search-result-item .info .cp-average-rating {
+    margin-bottom: 10px
+}
+.cp-search-result-item .icon-svg-shelves {
+    position: relative;
+    margin-right: 4px;
+    width: 1.72em;
+    height: 1.72em
+}
+.cp-group-search-feedback .source-bib-display .cp-jacket-cover {
+    max-width: 120px
+}
+.cp-group-search-feedback .matching-bib-list .bib-jacket,.cp-group-search-feedback .matching-bib-list .bib-jacket .cp-jacket-cover {
+    margin-right: 20px;
+    max-width: 120px
+}
+.cp-slider-jacket-cover a .cp-jacket-cover {
+    width: 100%
+}
+.cp-slider-jacket-cover a .cp-jacket-cover+.cp-bib-text-slide {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    visibility: visible;
+    opacity: 0;
+    width: 100%
+}
+.cp-return-checkout-item-confirmation-modal .return-checkout-item-modal-content .return-checkout-item-info .return-checkout-item-item-jacket-cover .cp-jacket-cover {
+    margin-right: .938rem;
+    width: 4rem
+}
+.cp-return-checkout-item-confirmation-modal .return-checkout-item-modal-content .cp-deprecated-bib-brief .cp-title {
+    color: var(--font-color-headings,var(--generic-graphite,#292929));
+    font-family: var(--font-family-headings,var(--font-family-base,"Open Sans",Arial,sans-serif));
+    font-size: 1rem;
+    font-weight: var(--font-weight-headings,600);
+    page-break-after: avoid;
+    page-break-inside: avoid;
+    line-height: 1.37;
+    margin-bottom: 0
+}
+.cp-return-checkout-item-confirmation-modal .return-checkout-item-modal-content .cp-deprecated-bib-brief .cp-title .cp-subtitle {
+    line-height: 1.5;
+    font-size: 1rem;
+    font-weight: 400
+}
+
+.cp-return-checkout-item-confirmation-modal .return-checkout-item-modal-content .cp-deprecated-bib-brief .cp-by-author-block {
+    margin-top: 0;
+    font-size: 1rem
+}
+
+.cp-return-checkout-item-confirmation-modal .return-checkout-item-modal-content .cp-deprecated-bib-brief .cp-item-format {
+    color: var(--generic-darkgrey,#666);
+    font-size: .875rem
+}

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        h2 {
+            text-align: center;
+            color: #277582;
+            padding: 20px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #6abadeba;
+            font-family: 'Arial';
+        }
+
+        .login {
+            width: 382px;
+            overflow: hidden;
+            margin: auto;
+            margin: 20 0 0 450px;
+            padding: 80px;
+            background: #23463f;
+            border-radius: 15px;
+
+        }
+
+        label {
+            color: #08ffd1;
+            font-size: 17px;
+        }
+
+        .Uname {
+            width: 300px;
+            height: 30px;
+            border: none;
+            border-radius: 3px;
+            padding-left: 8px;
+        }
+
+        .Pass {
+            width: 300px;
+            height: 30px;
+            border: none;
+            border-radius: 3px;
+            padding-left: 8px;
+
+        }
+
+        .log {
+            width: 300px;
+            height: 30px;
+            border: none;
+            border-radius: 17px;
+            padding-left: 7px;
+            color: blue;
+
+
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Login Page</h2>
+    {% if error %}
+    <p style="color: red;">{{error}}</p>
+    {% endif %}
+    <div class="login">
+        <form method="POST" action="/login">
+            <label for="email">Email:</label><br><br>
+            <input type="email" name="email" class="Uname" required><br><br>
+            <label for="password">Password:</label>
+            <input type="password" name="password" class="Pass" required><br><br>
+            <input class="log" type="submit" value="Login">
+        </form>
+        <br>
+        <button class="log" id="reg">Register</button><br><br>
+        <button class="log" id="admin">Login as Admin</button>
+    </div>
+</body>
+
+</html>
+<script>
+    document.getElementById("reg").addEventListener("click", function () {
+        window.location.href = "/register";
+    })
+    document.getElementById("admin").addEventListener("click", function () {
+        window.location.href = "/admin/login";
+    })
+</script>

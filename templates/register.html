@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        h2{
+    text-align: center;
+    color: #277582;
+    padding: 20px;
+}
+body
+{
+    margin: 0;
+    padding: 0;
+    background-color:#6abadeba;
+    font-family: 'Arial';
+}
+.login{
+        width: 382px;
+        overflow: hidden;
+        margin: auto;
+        margin: 20 0 0 450px;
+        padding: 80px;
+        background: #23463f;
+        border-radius: 15px ;
+
+}
+label{
+    color: #08ffd1;
+    font-size: 17px;
+}
+    </style>
+</head>
+<body>
+    <h2>Register</h2>
+    <div class="login">
+    <form id="registrationForm">
+        <label for="fname">First name:</label>
+        <input type="text" name="fname" required><br><br>
+        <label for="lname">Last name:</label>
+        <input type="text" name="lname" required><br><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" required><br><br>
+        <label for="phone">Phone:</label>
+        <input type="number" name="phone" required><br><br>
+        <label for="address">Address:</label>
+        <input type="text" name="address" required><br><br>
+        <label for="membership">Membership:</label>
+        <select name="membership" required>
+                <option value="student">Student</option>
+                <option value="citizen">Citizen</option>
+        </select><br><br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required><br><br>
+        <label for="password">Confirm Password:</label>
+        <input type="password" name="Cpassword" id="confirmPassword" required><br><br>
+        <input type="submit" value="Register">
+    </form>
+    </div>
+</body>
+</html>
+<script>
+    document.getElementById("registrationForm").addEventListener("submit", function(event) {
+  var password = document.getElementById("password").value;
+  var confirmPassword = document.getElementById("confirmPassword").value;
+
+  if (password !== confirmPassword) {
+    alert("Passwords do not match. Please try again.");
+    event.preventDefault(); // Prevent form submission if passwords don't match
+  }
+});
+</script>

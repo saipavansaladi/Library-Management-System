@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        @media (min-width: 1025px) {
+            .h-custom {
+                height: 100vh !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% include "header.html" %}
+    <section class="h-100 h-custom" style="background-color: #eee;">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <div class="row">
+                                <div class="col-lg-7">
+                                    <h5 class="mb-3"><a href="#!" class="text-body"><i
+                                                class="fas fa-long-arrow-alt-left me-2"></i>Continue shopping</a></h5>
+                                    <hr>
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <div>
+                                            <p class="mb-1">Shopping cart</p>
+                                            {% if data %}
+                                                <p class="mb-0">You have {{data|length}} items in your cart</p>
+                                            {% else %}
+                                                <p class="mb-0">You have 0 items in your cart</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% for i in data %}
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between">
+                                                <div class="d-flex flex-row align-items-center">
+                                                    <div>
+                                                        {% set imgPath="images/"+i[0] | string+".jpg" %}
+                                                        {% set bookPath="/showBook/"+i[0] | string %}
+                                                        <img src="{{ url_for('static', filename=imgPath) }}"
+                                                            class="img-fluid rounded-3" alt="" style="width: 65px;">
+                                                    </div>
+                                                    <div class="ms-3">
+                                                        <h5>{{i[1]}}</h5>
+                                                    </div>
+                                                    <div class="ms-3">
+                                                        {% for j in libraries %}
+                                                        {% if j['library_id']|string==i[2] %}
+                                                        <h5>{{j['name']}}</h5>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex flex-row align-items-center">
+                                                    <div style="width: 80px;">
+                                                        <button class="mb-0 mybtn" id="{{i[0]}}"
+                                                            temp="{{i[1]}}">Unhold</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="card bg-primary text-white rounded-3">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between">
+                                                <form id="loc" action="/cartSuccess" method="POST">
+                                                    <!-- {% for i in libraries %}
+                                                    <input type="radio" value="{{i['library_id']}}" name="libr"
+                                                        required>
+                                                    <label for="">{{i['name']}}</label><br>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;<label
+                                                        for="">Address:{{i['address']}}</label><br>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;<label
+                                                        for="">Email:{{i['email']}}</label><br>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;<label
+                                                        for="">Phone:{{i['phone']}}</label><br>
+                                                    {% endfor %} -->
+                                                    <button type="submit" class="btn btn-info btn-block btn-lg">
+                                                        <div class="d-flex justify-content-between">
+                                                            <span id="checkout" type="submit">Checkout <i
+                                                                    class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                                        </div>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+<script>
+    console.log(localStorage.getItem('myCart'));
+    var button = document.querySelectorAll('.mybtn');
+    for (var i of button) {
+        i.addEventListener('click', (e) => {
+            var add = Number(JSON.parse(localStorage.getItem('myCart')).length || 0);
+            var isbn = e.target.id;
+            var title = e.target.getAttribute('temp');
+            var storedListJSON = localStorage.getItem('myCart');
+            var storedList = JSON.parse(storedListJSON);
+            if (e.target.textContent == 'Hold') {
+                noti.setAttribute('data-count', add + 1);
+                noti.classList.add('zero');
+                // localStorage.setItem('data-count',add+1);
+                storedList.push([isbn, title]);
+                var updatedListJSON = JSON.stringify(storedList);
+                localStorage.setItem('myCart', updatedListJSON);
+                e.target.textContent = "Unhold";
+            }
+            else {
+                noti.setAttribute('data-count', add - 1);
+                noti.classList.add('zero');
+                // localStorage.setItem('data-count',add-1);
+                storedList = storedList.filter(item => item[0] !== isbn);
+                var updatedListJSON = JSON.stringify(storedList);
+                localStorage.setItem('myCart', updatedListJSON);
+                e.target.textContent = "Hold";
+            }
+            console.log(localStorage);
+            console.log(JSON.parse(localStorage.getItem('myCart')).length);
+        });
+    }
+    document.getElementById("checkout").addEventListener("click", function (event) {
+        event.preventDefault();
+        var t = document.getElementById("user");
+        // const formData = new FormData(document.getElementById('loc'));
+        //console.log([...formData.entries()].length)
+        // if ([...formData.entries()].length == 0) {
+        //     console.log(...formData.entries());
+        //     document.getElementById('loc').reportValidity();
+        // }
+        if (t.getAttribute('logged') == 'no') {
+            window.location.href = "/login";
+        }
+        else {
+            var storedList = JSON.parse(localStorage.getItem('myCart'));
+            console.log(storedList);
+            // var lib = [...formData.entries()];
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/cartSuccess';
+            const input1 = document.createElement('input');
+            input1.type = 'hidden';
+            input1.name = 'myCart';
+            input1.value = JSON.stringify(storedList);
+            // const input2 = document.createElement('input');
+            // input2.type = 'hidden';
+            // input2.name = 'library';
+            // input2.value = JSON.stringify(lib[0][1]);
+            form.appendChild(input1);
+            // form.appendChild(input2);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    })
+    // var fetchButton = document.getElementById('checkout');
+    // fetchButton.addEventListener('click', gotocheckout);
+    console.log(localStorage.getItem("myCart"));
+</script>

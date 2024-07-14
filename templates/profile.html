@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h2{
+    text-align: center;
+    color: #277582;
+    padding: 20px;
+}
+body
+{
+    margin: 0;
+    padding: 0;
+    background-color:#6abadeba;
+    font-family: 'Arial';
+}
+.login{
+        width: 382px;
+        overflow: hidden;
+        margin: auto;
+        margin: 20 0 0 450px;
+        padding: 80px;
+        background:cadetblue;
+        border-radius: 15px ;
+
+}
+.login > p{
+    color: #08ffd1;
+    font-size: 17px;
+}
+    </style>
+</head>
+<body>
+    {% include "header.html" %}
+    <div class="login">
+    <p>Name: {{data['first_name']}} {{data['last_name']}}</p>
+    <p>Email: {{ data['email']}}</p>
+    <p>Phone number:{{data['phone']}}</p>
+    <p>Address:{{data['address']}}</p>
+    <p>Membership:{{data['membership']}}</p>
+    </div>
+</body>
+</html>

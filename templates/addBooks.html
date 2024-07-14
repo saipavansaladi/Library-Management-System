@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h2 {
+            text-align: center;
+            color: #277582;
+            padding: 20px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #6abadeba;
+            font-family: 'Arial';
+        }
+
+        .login {
+            width: 382px;
+            overflow: hidden;
+            margin: auto;
+            margin: 20 0 0 450px;
+            padding: 80px;
+            background: #23463f;
+            border-radius: 15px;
+
+        }
+
+        label {
+            color: #08ffd1;
+            font-size: 17px;
+        }
+
+        .Uname {
+            width: 300px;
+            height: 30px;
+            border: none;
+            border-radius: 3px;
+            padding-left: 8px;
+        }
+
+        .Pass {
+            width: 300px;
+            height: 30px;
+            border: none;
+            border-radius: 3px;
+            padding-left: 8px;
+
+        }
+
+        .log {
+            width: 300px;
+            height: 30px;
+            border: none;
+            border-radius: 17px;
+            padding-left: 7px;
+            color: blue;
+
+
+        }
+    </style>
+</head>
+<body>
+    <!-- {% include "adminHeader.html" %} -->
+    <h2>Add Book</h2>
+    <div class="login">
+    <form action="{{ url_for('add_books') }}" method="POST" enctype="multipart/form-data">
+        <label>Title</label>
+        <input type="text" name="title"><br>
+        <label>Author</label>
+        <input type="text" name="author"><br>
+        <label for="">ISBN</label>
+        <input type="number" name="isbn"><br>
+        <label for="">Genre</label>
+        <input type="text" name="genre"><br>
+        <label for="">Year of Publication</label>
+        <input type="number" name="yop"><br>
+        <label for="">Library</label>
+        <select name="library">
+            {% for i in libraries %}
+                <option value="{{i['library_id']}}">{{i['name']}}</option>
+            {% endfor %}
+        </select><br>
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+    </div>
+    {% if msg %}
+        <p>{{msg}}</p>
+    {% endif %}
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const input = document.querySelector('input[type="file"]');
+    const submit = document.querySelector('input[type="submit"]');
+
+    submit.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const file = input.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const img = new Image();
+                img.src = event.target.result;
+                img.width = 100;
+                img.height = 100;
+                document.body.appendChild(img);
+            };
+
+            reader.readAsDataURL(file);
+            form.submit();
+        }
+    });
+});
+</script>
+</html>

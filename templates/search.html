@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    {% include "header.html" %}
+    <div>
+        {% if books %}
+        <section class="results-list row">
+            <div class="col-md-12 results-list-items">
+                <ul class="results">
+                    {% for j in availability %}
+                        {% for k in availability[j] %}
+                            {% for i in books %}
+                                {% if i['isbn']==j %}
+                    <li class="row cp-search-result-item" style="order:0">
+                        {% set imgPath="images/"+i['isbn'] | string+".jpg" %}
+                        {% set bookPath="/showBook/"+i['isbn'] | string %}
+                        <div class="col-md-2 visible-md visible-lg item-column" style="padding-top: 25px"><a href="{{bookPath}}" tabindex="-1"
+                                aria-hidden="true" target="_parent" data-key="bib-image-link"><img alt="{{i['title']}}"
+                                    src="{{ url_for('static', filename=imgPath) }}"
+                                    class="cp-jacket-cover img-responsive" style="max-width: 100%; height: 150px;"></a>
+                        </div>
+                        <div class="col-md-10 item-column">
+                            <div class="cp-search-result-item-content">
+                                <div class="cp-search-result-item-info">
+                                    <div class="cp-deprecated-bib-brief">
+                                        <h2 class="cp-title">
+                                            <a href="{{bookPath}}" target="_parent" lang="en" rel="noopener">
+                                                <span aria-hidden="true" class="title-content">{{i['title']}}</span>
+                                            </a>
+                                        </h2>
+                                        <span class="cp-by-author-block --block">by <span
+                                                class="cp-author-link"><span><a target="_parent"
+                                                        rel="noopener noreferrer"
+                                                        class="author-link">{{i['author']}}</a></span></span></span>
+                                    </div>
+                                </div>
+                                <div class="cp-search-result-item-info">Genre:{{i['genre']}}</div>
+                                <div class="cp-search-result-item-info">Year:{{i['yearofPublication']}}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-10 item-column">
+                            <div class="cp-search-result-item-content" style="width: 175px;">
+                                <!-- <div class="cp-search-result-item-info">Available Copies:{{availability[i['isbn']]['total']}}</div> -->
+                                <div class="cp-search-result-item-info">Available in Library : {{libraries[k]}}</div>
+                                <!-- {% if availability[i['isbn']]['total']==0 %} -->
+                                <!-- <button class="mybtn" id="{{i['isbn']}}" temp="{{i['title']}}" disabled="true">Hold</button> -->
+                                <!-- {% else %} -->
+                                <button class="mybtn" id="{{i['isbn']}}" temp="{{i['title']}}" lib="{{k}}">Hold</button>
+                                <!-- {% endif %} -->
+                            </div>
+                        </div>
+                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+        {% else %}
+        <div>No Records</div>
+        {% endif %}
+    </div>
+</body>
+
+<script>
+    var myCart = [];
+    var myCartJSON = JSON.stringify(myCart);
+    localStorage.setItem('myCart', localStorage.getItem('myCart') || myCartJSON);
+    var noti = document.querySelector('h1');
+    var select = document.querySelector('.select');
+    var button = document.querySelectorAll('.mybtn');
+    noti.setAttribute('data-count',Number(JSON.parse(localStorage.getItem('myCart')).length || 0));
+    noti.classList.add('zero');
+    for (var i of button){
+        var isbn=i.id;
+        var storedListJSON = localStorage.getItem('myCart');
+        var storedList = JSON.parse(storedListJSON);
+        var flag=0
+        for(var j of storedList){
+            if(j[0]==isbn){
+                flag=1;
+                break;
+            }
+        }
+        if(flag){
+            i.textContent="Unhold";
+            console.log(isbn);
+        }
+    }
+
+    for (var i of button) {
+        i.addEventListener('click', (e) => {
+            var add = Number(JSON.parse(localStorage.getItem('myCart')).length || 0);
+            var isbn=e.target.id;
+            var title=e.target.getAttribute('temp');
+            var libid=e.target.getAttribute('lib');
+            var storedListJSON = localStorage.getItem('myCart');
+            var storedList = JSON.parse(storedListJSON);
+            console.log(e.target.textContent);
+
+            if(e.target.textContent=='Hold')
+            {
+                noti.setAttribute('data-count', add + 1);
+                noti.classList.add('zero');
+                // localStorage.setItem('data-count',add+1);
+                storedList.push([isbn,title,libid]);
+                var updatedListJSON = JSON.stringify(storedList);
+                localStorage.setItem('myCart', updatedListJSON);
+                e.target.textContent="Unhold";
+            }
+            else{
+                noti.setAttribute('data-count', add - 1);
+                noti.classList.add('zero');
+                // localStorage.setItem('data-count',add-1);
+                storedList=storedList.filter(item => item[0] !== isbn);
+                var updatedListJSON = JSON.stringify(storedList);
+                localStorage.setItem('myCart', updatedListJSON);
+                e.target.textContent="Hold";
+            }
+            console.log(localStorage);
+            console.log(JSON.parse(localStorage.getItem('myCart')).length);
+        })
+    }
+    console.log(localStorage);
+</script>
+</html>

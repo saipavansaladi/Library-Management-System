@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% include "header.html" %}
+    <div>
+    {% if data %}
+    {% for i in data %}
+        <div>
+            <div>
+                Books on hold in {{libraries[i]}}
+            </div>
+            <div class="col-lg-7">
+                {% for j in data[i] %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex flex-row align-items-center">
+                                <div>
+                                    {% set imgPath="images/"+j | string+".jpg" %}
+                                    {% set bookPath="/showBook/"+j | string %}
+                                    <img src="{{ url_for('static', filename=imgPath) }}"
+                                        class="img-fluid rounded-3" alt="" style="width: 65px;">
+                                </div>
+                                <div class="ms-3">
+                                    <h5>{{data[i][j]}}</h5>
+                                </div>
+                            </div>
+                            <!-- <div class="d-flex flex-row align-items-center">
+                                <div style="width: 80px;">
+                                    <button class="mb-0 mybtn" id="{{i[0]}}"
+                                        temp="{{i[1]}}">Unhold</button>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+    {% else %}
+        <div>
+            No books on Hold
+        </div>
+    {% endif %}
+    </div>
+</body>
+</html>

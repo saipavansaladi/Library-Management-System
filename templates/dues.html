@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    {% include "header.html" %}
+    <div>
+        {% if books | length %}
+        <div style="display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        justify-content: center;">
+            Dues on Books
+        </div>
+        <div class="col-lg-7">
+            {% for j in books %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex flex-row align-items-center">
+                            <div>
+                                {% set imgPath="images/"+books[j]['isbn'] | string+".jpg" %}
+                                {% set bookPath="/showBook/"+books[j]['isbn'] | string %}
+                                <img src="{{ url_for('static', filename=imgPath) }}" class="img-fluid rounded-3" alt=""
+                                    style="width: 65px;">
+                            </div>
+                            <div class="ms-3">
+                                <h5>{{books[j]['title']}}</h5>
+                            </div>
+                            <div class="ms-3">
+                                <h5>Due Date: {{books[j]['duedate']}}</h5>
+                            </div>
+                            <div class="ms-3" style="display: flex;">
+                                <h5>fine : </h5>
+                                <h5 class="fine">{{books[j]['finedin']}}</h5>
+                                <h5>$</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-lg-5">
+            <div class="card bg-primary text-white rounded-3">
+                <div class="card-body">
+                    <div>
+                        <span>Total : </span>
+                        <span class="amount"></span>
+                        <span>$</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <form action="/payment" method="POST">
+                            <button type="submit" class="btn btn-info btn-block btn-lg">
+                                <div class="d-flex justify-content-between">
+                                    <span id="pay" type="submit">Pay <i
+                                            class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                </div>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div style="text-align: center;">
+            Great! You don't have any dues.
+        </div>
+        {% endif %}
+    </div>
+</body>
+
+</html>
+<script>
+    var renew = document.querySelectorAll('.renew');
+    for (var i of renew) {
+        i.addEventListener('click', function (e) {
+            var response = confirm("Would you like to renew the book?");
+            // console.log(response);
+            if (response == true) {
+                console.log(response);
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/checkedout';
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'copyID';
+                input.value = e.target.id;
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        })
+    }
+    var fines=document.querySelectorAll('.fine');
+    var total=0;
+    for(var i of fines)
+    {
+        let value = parseFloat(i.textContent);
+        total=total+value;
+    }
+    var amount=document.querySelector('.amount');
+    amount.textContent=total;
+
+    document.getElementById('pay').addEventListener("click",function(e){
+        e.preventDefault();
+        var total= document.querySelector(".amount");
+        var amount=parseFloat(total.textContent);
+        const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/payment';
+            const input1 = document.createElement('input');
+            input1.type = 'hidden';
+            input1.name = 'total';
+            input1.value = JSON.stringify(amount);
+            form.appendChild(input1);
+            document.body.appendChild(form);
+            form.submit();
+            // console.log(amount)
+    })
+</script>

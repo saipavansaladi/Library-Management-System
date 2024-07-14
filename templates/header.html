@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <style>
+    .flex {
+      display: flex;
+    }
+
+    .items-center {
+      align-items: center;
+    }
+
+    .pa3 {
+      padding: 1rem;
+    }
+
+    .db-hdkp {
+      display: block;
+    }
+
+    .relative {
+      position: relative;
+    }
+
+    .flex-column {
+      flex-direction: column;
+    }
+
+    .shadow-2 {
+      box-shadow: 0 0.1875rem 0.3125rem 0.125rem #00000026;
+    }
+
+    .bg-secondary {
+      background-color: #0071dc;
+    }
+
+    .flex-auto {
+      flex: 1 1 auto;
+      min-height: 0;
+      min-width: 0;
+    }
+
+    .search-bar {
+      height: 40px;
+    }
+
+    .br-pill {
+      border-radius: 9999px;
+    }
+
+    .search-icon {
+      background-color: #ffc220;
+      height: 2rem;
+      right: 1.25rem;
+      width: 2rem;
+    }
+
+    .absolute {
+      position: absolute;
+    }
+
+    .br-100 {
+      border-radius: 100%;
+    }
+
+    .select {
+      width: 60%;
+      height: 580px;
+      padding: 5%;
+      background: burlywood;
+      position: absolute;
+      top: -1000px;
+      left: 20%;
+      transition: 0.5s;
+      overflow-y: auto;
+      margin: auto;
+    }
+
+    .select.display {
+      top: 10px;
+      margin-top: 20px;
+    }
+
+    .select div {
+      width: 100%;
+      /* height: 200px; */
+      flex-direction: column;
+      display: flex;
+      padding: 5px;
+      border: 1px solid white;
+      position: relative;
+      margin: 5px auto;
+    }
+
+    /* .select div img{
+			width: 300px;
+			height: 100%;
+		} */
+    .select div p {
+      padding: 35px;
+      color: white;
+    }
+
+    .select div h6,
+    .select div button {
+      position: absolute;
+      left: 45%;
+      top: 50%;
+      color: white;
+    }
+
+    .select div button {
+      left: 60%;
+      top: 55%;
+    }
+
+    /* .select div span{
+		 display: none;
+		} */
+
+    h1:before {
+      content: attr(data-count);
+      color: white;
+      position: absolute;
+      right: 20px;
+      font-size: 15px;
+      text-align: center;
+      top: 38px;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+      opacity: 0;
+    }
+
+    h1.zero:before {
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="flex flex-column shadow-2">
+    <span class="bg-secondary">
+      <header class="flex items-center pa3">
+        <div style="color: #fff; padding-left: 1rem; padding-right: 1rem" class="home">Library</div>
+        <form action="/search" method="POST" autocomplete="off" role="search"
+          class="flex flex-auto items-center justify-center">
+          <select name="filterBy" style="padding-left: 1rem; padding-right: 1rem; border-radius: 25px;">
+            <option value="title">title</option>
+            <option value="author">author</option>
+          </select>
+          <div class="flex flex-auto items-center relative" style="padding-left: 1rem; padding-right: 1rem">
+            <input type="search" class="flex-auto search-bar br-pill" name="keyword" placeholder="Search"
+              style="padding-left:1.5rem;padding-right:2.5rem" autocomplete="off" value="">
+            <button class="absolute br-100 search-icon" style="cursor:pointer">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </form>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Menu
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            {% if 'user_id' in session %}
+            <li><a class="dropdown-item" href="/Profile">My Profile</a></li>
+            <li><a class="dropdown-item" href="/dues">Dues</a></li>
+            <li><a class="dropdown-item" href="/checkedout">Checked out</a></li>
+            <li><a class="dropdown-item" href="/onhold">On Hold</a></li>
+            {% else %}
+            <li><a class="dropdown-item" href="/login">My Profile</a></li>
+            <li><a class="dropdown-item" href="/login">Dues</a></li>
+            <li><a class="dropdown-item" href="/login">Checked out</a></li>
+            <li><a class="dropdown-item" href="/login">On Hold</a></li>
+            {% endif %}
+            {% if 'user_id' in session %}
+            <li><a class="dropdown-item" id="signout" href="/signout">Sign out</a></li>
+            {% endif %}
+
+
+          </ul>
+        </div>
+        
+        {% if 'user_id' not in session %}
+        <div style="color: #fff; padding-left: 1rem; padding-right: 1rem">
+          <p id="user" logged="no"><a style="text-decoration: none; color: #fff;" href="/login" id="user">login/register</a></p>
+        </div>
+        {% else %}
+        <div style="color: #fff; padding-left: 1rem; padding-right: 1rem">
+          <p id="user" logged="yes">{{session['username']}}</p>
+        </div>
+        {% endif %}
+        <h1 style="color: #fff; padding-left: 1rem; padding-right: 1rem" id="cartButton"><i class=" fa fa-shopping-cart"
+            style="font-size:25px"></i></h1>
+      </header>
+    </span>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+<script>
+  //localStorage.clear();
+  
+  var noti = document.querySelector('h1');
+  noti.setAttribute('data-count', Number(JSON.parse(localStorage.getItem('myCart')).length || 0));
+  noti.classList.add('zero');
+  function gotocart() {
+    var storedList = JSON.parse(localStorage.getItem('myCart'));
+    console.log(storedList);
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/cart';
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'listData'; // Set the name to identify the data on the server
+    input.value = JSON.stringify(storedList); // Stringify the entire list
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+  }
+  console.log(localStorage.getItem('myCart'));
+  console.log("in header");
+  var fetchButton = document.getElementById('cartButton');
+  fetchButton.addEventListener('click', gotocart);
+  document.getElementById('signout').addEventListener("click",function(){
+    localStorage.clear();
+  });
+</script>
+
+</html>
+<script>
+  document.querySelector(".home").addEventListener("click",function(){
+        window.location.href="/home";
+    })
+</script>

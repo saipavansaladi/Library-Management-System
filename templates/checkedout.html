@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    {% include "header.html" %}
+    <div>
+        <div>
+            Checked Out Books
+        </div>
+        <div class="col-lg-7">
+            {% for j in books %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex flex-row align-items-center">
+                            <div>
+                                {% set imgPath="images/"+books[j]['isbn'] | string+".jpg" %}
+                                {% set bookPath="/showBook/"+books[j]['isbn'] | string %}
+                                <img src="{{ url_for('static', filename=imgPath) }}" class="img-fluid rounded-3" alt=""
+                                    style="width: 65px;">
+                            </div>
+                            <div class="ms-3">
+                                <h5>{{books[j]['title']}}</h5>
+                            </div>
+                            <div class="ms-3">
+                                <h5>Due Date: {{books[j]['duedate']}}</h5>
+                            </div>
+                            {% if books[j]['finedin'] >0 %}
+                            <button class="renew" id="{{j}}" disabled="true">Renew</button>
+                            {% elif books[j]['finedin'] >-2 %}
+                            <button class="renew">Renew</button>
+                            {% else %}
+                            <button class="renew" disabled="true">Renew</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    var renew = document.querySelectorAll('.renew');
+    for (var i of renew) {
+        i.addEventListener('click', function (e) {
+            var response = confirm("Would you like to renew the book?");
+            // console.log(response);
+            if (response == true) {
+                console.log(response);
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/checkedout';
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'copyID';
+                input.value = e.target.id;
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        })
+    }
+</script>
